@@ -8,71 +8,110 @@
 \usepackage{textcomp}
 \usepackage{lipsum}
 \usepackage{xcolor}
+\usepackage{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Conference Paper Title*\\
-{\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
-should not be used}
-\thanks{Identify applicable funding agency here. If none, delete this.}
+\title{Synergy of Distributed Ledger Technologies and the Internet of Things*\\
+% {\footnotesize \textsuperscript{*}Note: Sub-titles are not captured in Xplore and
+% should not be used}
+% \thanks{Identify applicable funding agency here. If none, delete this.}
 }
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\author{\IEEEauthorblockN{Sebastian Kanz}
+\IEEEauthorblockA{\textit{Distributed Ledger Technologies} \\
+\textit{MaibornWolff GmbH}\\
+Frankfurt a.M., Germany \\
+sebastian.kanz@maibornwolff.de}
+% \and
+% \IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+% \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+% \textit{name of organization (of Aff.)}\\
+% City, Country \\
+% email address or ORCID}
+% \and
+% \IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
+% \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+% \textit{name of organization (of Aff.)}\\
+% City, Country \\
+% email address or ORCID}
 }
 
 \maketitle
 
 \begin{abstract}
-\lipsum[1-1]
+  The telecommunications company Cisco predicts that by 2030, more than 500 billion IOT devices connected to the Internet will have found their way into various areas of our daily lives \cite{cisco2016}. Networked objects of our everyday life such as refrigerators, coffee machines, the automated supply chain from the business environment or a smart city are only a few examples of this business field. Although the concept of IOT is still very theoretical, several use cases have already been developed. In order to fully exploit the great potential of IOT and to implement corresponding visions, a suitable IT solution must be provided for the corresponding use case. Many different manufacturers and service providers need a uniform platform on which they can network their IOT devices, services, business logic and customers with each other and integrate a secure payment system. The question arises whether and to what extent the two innovative technologies DLT and IOT can benefit from each other and whether DLT is suitable as a scaling, high-performance and secure technology for IOT use cases. To answer this question, this paper examines an exemplary IOT use case, creates a requirements analysis and determines a suitable DLT for validating the research question by means of a market analysis and a requirements assessment. Finally, the implementation of an exemplary prototype based on the selected DLT is used to validate the results of this thesis.
 \end{abstract}
 
 \begin{IEEEkeywords}
 Blockchain, Distributed Ledger Technologies, Internet of Things, State Channel
 \end{IEEEkeywords}
 
+
+
 \section{Introduction}
 \lipsum[1-1]
-\cite{test:test}
 
-\section{Section Heading}
+
+\section{Fundamental concepts}
+\subsection{Distributed Ledger Technologies}
 \lipsum[1-1]
 
-\subsection{Subsection Heading}
-\paragraph{Paragraph} \lipsum[1-1]
 
-\begin{table}[htbp]
-\caption{Table Type Styles}
-\begin{center}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
-\cline{2-4}
-\textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
-\hline
-copy& More table copy$^{\mathrm{a}}$& &  \\
-\hline
-\multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
-\end{tabular}
-\label{tab1}
-\end{center}
-\end{table}
+\subsection{Internet of Things}
+\lipsum[1-1]
+
+\subsection{State-Channels for asynchronous IOT use cases}
+Blockchains\footnote{Note: This consideration is primarily concerned with public blockchains, regardless of the consensus method used. The scaling problem can usually be solved by limiting the blockchains to a private one.} have predefined limits due to their nature. A natural limit is given by the consensus protocol independent of block size and network capacity: For example, the Bitcoin network is limited to a block time of 10 minutes by the complex calculation of \textit{Proof-of-Work (PoW)}. If the block size is very small, blocks can be propagated over the network very quickly, but only a few transactions can be transmitted at once. If the block size is very large, it is very difficult for nodes to synchronize. Instead, more transactions can be transmitted at once.\\
+Due to this limitation on block size and block duration, Bitcoin currently (as of 01/2020) allows an average of about 7 transactions per second \cite{Macdonald2017}. Other implementations may use different consensus mechanisms and other parameters, but there are natural barriers. It becomes clear that with increasing requirements, especially for transaction processing per time interval (mostly \textit{transaction per second (TPS)}, improved performance and new approaches to solutions become necessary. A solution is sought for the poor scaling of blockchains. \cite{Macdonald2017}\\
+As a possible answer to the scaling problem of blockchains, so-called state channels are being developed. The goal is to process all kinds of status-changing operations off-chain, which are typically executed on the blockchain and stored on-chain. This reduces the number of accesses to the blockchain and the number of transactions, while at the same time improving the interaction time between individual parties. In the context of payments, this enables so-called micro-payments; state channels, which are limited to payment processing, are referred to as payment channels. These can be made faster and cheaper than normal transactions. The costs of such micro-payments can be kept very low because not all transactions are stored on the blockchain. \cite{Coleman2018}\\
+The basic idea is the following: Alice and Bob reserve a portion of their assets on the blockchain so they can't dispose of them for the time being and open a payment channel to each other. This transaction, i.e. the opening of the payment channel, is stored on the blockchain. The volume of the channel, i.e. the assets that Alice and Bob can now exchange between each other, corresponds to the sum of the reserved assets. Your desired assets, which are to be reserved for the payment channel, can be reserved either by means of a multi-signature wallet (\textbf{Reference}) or smart contract (\textbf{Reference}). Alice and Bob now have a state of 50 Euro each. Afterwards both can send signed off-chain transactions to each other (i.e. not via the blockchain network). These transactions contain the new state: If Bob transfers 10 Euro to Alice, the state of Alice changes from 50 Euro to 60 Euro. If Bob sends another transaction of 10 Euro, the state of Alice changes to 70 Euro. Both of them can repeat this process as long as they want, as long as they are within the volume of 100 Euro. To close a channel, Alice or Bob send a transaction to the blockchain network containing the final state (in the example, Alice has 70 Euros and Bob 30 Euros). For a theoretically infinite number of transactions between Alice and Bob, only the opening and closing transaction of the payment channel must be stored onchain.\\
+%https://busy.org/@bit-news/scalability-solutions-part-1
+Another major advantage is the asynchronous nature of the transactions made possible by the state channel. If participants are not in the blockchain network (for example, due to connectivity problems), no transactions can be carried out. If real actions, such as opening a barrier or processing an action, are related to a blockchain status update, the real process would come to a standstill until the connection is restored if connectivity is lost. State channels could be used here to create a redundant connection that could also be used when the blockchain is not accessible. Some example implementations of state channels are Bitcoin's Lightning Network \cite{Lightning2016}, Ethereum's Raiden Network, or the implementation of Neo called Trinity \cite{Trinity2018}.\\
+Another way to scale blockchain applications can be created by using side chains \cite{sidechain2019}. These are separate blockchains that run parallel to the main blockchain (also often called parent blockchain or main chain). To open a side chain, you must first prove that all assets whose status is to be changed in the side chain are locked or reserved on the main chain so that the owner cannot temporarily dispose of them (for example, through zero knowledge proofs, see \cite{zeroknowledge2020}). These locked assets can then be transferred to the side chain. There the status can be changed; for example, a money transaction can be executed. If an asset is to be transferred back to the main chain, proof must be provided that the asset has been locked on the side chain. This prevents effects such as double spending.\\
+Solutions such as state channels and side chains are known as layer 2 approaches: This term refers to approaches that are not directly executed on the blockchain itself (layer 1), but on a separate system.\\
+\textbf{Now what are the advantages in the context of IOT? Keywords: asynchronous processing, offline capability}
+
+
+\section{Pay-As-You-Use renting of gastronomy devices}
+\textbf{Description of use case goes here.}\\
+\paragraph{Coffee Machines..}
+\lipsum[1-1]
+
+\subsection{Requirements}
+\lipsum[1-1]
+
+\subsection{Market analysis DLT}
+\lipsum[1-1]
+
+\section{Implementation}
+\lipsum[1-1]
+
+
+\section{Conclusion}
+\lipsum[1-1]
+
+\section{Future Work}
+\lipsum[1-1]
+
+
+% \begin{table}[htbp]
+% \caption{Table Type Styles}
+% \begin{center}
+% \begin{tabular}{|c|c|c|c|}
+% \hline
+% \textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
+% \cline{2-4}
+% \textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
+% \hline
+% copy& More table copy$^{\mathrm{a}}$& &  \\
+% \hline
+% \multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
+% \end{tabular}
+% \label{tab1}
+% \end{center}
+% \end{table}
 
 % \begin{figure}[htbp]
 % \centerline{\includegraphics{fig1.png}}
@@ -83,14 +122,12 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 
 
 \section*{Acknowledgment}
-
-Acknowledgment goes here\\
+\textbf{Acknowledgment goes here}\\
 \lipsum[1-1]
+
 
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEfull,references}
-
-
 
 \end{document}
