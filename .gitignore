@@ -278,3 +278,6 @@ TSWLatexianTemp*
 
 # Other
 *.sh
+
+# VS-Code
+.vscode/*

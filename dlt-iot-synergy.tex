@@ -41,7 +41,11 @@ sebastian.kanz@maibornwolff.de}
 \maketitle
 
 \begin{abstract}
-  The telecommunications company Cisco predicts that by 2030, more than 500 billion IOT devices connected to the Internet will have found their way into various areas of our daily lives \cite{cisco2016}. Networked objects of our everyday life such as refrigerators, coffee machines, the automated supply chain from the business environment or a smart city are only a few examples of this business field. Although the concept of IOT is still very theoretical, several use cases have already been developed. In order to fully exploit the great potential of IOT and to implement corresponding visions, a suitable IT solution must be provided for the corresponding use case. Many different manufacturers and service providers need a uniform platform on which they can network their IOT devices, services, business logic and customers with each other and integrate a secure payment system. The question arises whether and to what extent the two innovative technologies DLT and IOT can benefit from each other and whether DLT is suitable as a scaling, high-performance and secure technology for IOT use cases. To answer this question, this paper examines an exemplary IOT use case, creates a requirements analysis and determines a suitable DLT for validating the research question by means of a market analysis and a requirements assessment. Finally, the implementation of an exemplary prototype based on the selected DLT is used to validate the results of this thesis.
+  Manufacturers of household appliances have different opportunities to sell or rent their devices not exclusively to private consumers but also to companies and the gastronomic environment. Transforming those devices into IOT devices by making them ''smart'' with the concept of a ''digital twin'' enables manufacturers to utilize new technology and offer new payment models to their customers. This allows the development of an ecosystem in which new business processes can emerge and serveral stakeholders can participate: A platform that connects those smart devices and handles the communication, data persistency, security and the automated processing of the business logic. An evident approach for a suitable solution to create such a platfrom might be the application of blockchain technology - or in general the distributed ledger technology. Due to their characteristics like distribution, no-trust environment, integrity of data and the ability of automated code-processing it is worth investigating on that topic.\\ 
+  In this paper the synergy between IOT and DLT is shown by the analyzation of a representative, practical IOT use case and the prototypical implementation based on the blockchain platform Ethereum.\\
+
+  \cite{cisco2016}
+  % The telecommunications company Cisco predicts that by 2030, more than 500 billion IOT devices connected to the Internet will have found their way into various areas of our daily lives \cite{cisco2016}. Networked objects of our everyday life such as refrigerators, coffee machines, the automated supply chain from the business environment or a smart city are only a few examples of this business field. Although the concept of IOT is still very theoretical, several use cases have already been developed. In order to fully exploit the great potential of IOT and to implement corresponding visions, a suitable IT solution must be provided for the corresponding use case. Many different manufacturers and service providers need a uniform platform on which they can network their IOT devices, services, business logic and customers with each other and integrate a secure payment system. The question arises whether and to what extent the two innovative technologies DLT and IOT can benefit from each other and whether DLT is suitable as a scaling, high-performance and secure technology for IOT use cases. To answer this question, this paper examines an exemplary IOT use case, creates a requirements analysis and determines a suitable DLT for validating the research question by means of a market analysis and a requirements assessment. Finally, the implementation of an exemplary prototype based on the selected DLT is used to validate the results of this thesis.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -49,112 +53,55 @@ Blockchain, Distributed Ledger Technologies, Internet of Things, State Channel
 \end{IEEEkeywords}
 
 
+\section{Pay-As-You-Use renting of smart gastronomy devices}
+The use case investigated in this paper is as follows:\\
+Manufacturers offer their smart household appliances on a platform where customers can rent those devices and pay for the usage by a pay-as-you-use payment model. Therefore the devices have onboard sensors which are able to track and analyze the usage and the internal machine state. Furthermore other stakeholders like service-providers or suppliers take part on the platform and offer their services. The renting contracts as well as the service contracts - like the service provided by the service-provider or the supply contract for supplying customers with goods - is automatically processed by the platform. This includes the communication with the devices and their onboard sensors, the payment for consuming services and goods and the information providing to the involved stakeholders.\\
+The present use case focuses on smart coffee machines rented to companies. Imagine the following setup: A company - here in the role of a customer - has an active renting contract with the manufacturer. The supplier is commissioned to deliver the machine as well as optinal goods to the customer. The payment and the delivery tracking are defined through the supply contract which is processed by the platform. As soon as the machine is plugged in at the customer's office and connected to the internet, the employees of the customer can order their coffee. They can authorize as company employees and pay the coffee with their company-wallet via a smartphone app - the communication between their smartphone and the coffee machine is done through near field communication (NFC). The coffee machine is able to check whether the company has enough credits for the coffee to be served. If the machine requires maintenance or if an error occures the service-provider is contacted. This process as well as the payment to the service-provider is fully automated through the platform. \\
+The design of the present use case requires the platform to implement a set of features. To find a suitable platform solution the key requirements were elaborated and transferred into the DLT context:\\
+\begin{itemize}
+  \item Smart-contracts allow automated information processing on-chain.
+  \item Oracle-services provide off-chain information to the DLT.
+  \item Payment is needed for processing invoices of services and goods.
+  \item Asynchronicity empowers IOT use cases.
+  \item Performance is needed by every application and adjusted to the specific use case.
+  \item Encryption needs to be ensured to protect customer data and privacy.
+\end{itemize}
 
-\section{Introduction}
-\lipsum[1-1]
+performance
 
+For the evaluation the security and encryption mechanisms in DLTs reference is made to [XYZ]. Those topics are evaluated in detail in the given references and are not in the focus of this paper. The integration of payment can be done via a third-party or by built-in DLT functionality like cryptocurrency or tokens (see [XYZ]).\\
+An important concept that needs to be mentioned is the smart-contract which enables this use case to be fully automated and process contracts and contract-logic onchain as well as providing oracle-services. Due to the fact that most modern DLTs offer smart-contract functionality this topic is not investigated on in detail. The key concept that empowers this use case is the need of asynchroneous communication and information processing. Most IOT use cases have too few ressources for providing user-friendly synchroneous communication. Due to connection-loss, power-outage or less computing ressources IOT devices can not guarantee a constant communication channel to other devices. Pushing the concept of asynchronicity a little further and increasing the out time between connections this is referred to as offline capability. To be able to offer the customers a satisfying user-experience the most critical point is the user interaction - in this usecase namely the serving of the coffee. If this process takes to long or aborts due to errors, the customers will decline the use case and the acceptance decreases as well as the economic efficiency.\\
+Therefore technology of the underlying platform needs a mechanism for this offline functionality: The processing, the payment and the synchronization needs to take place in different time intervals. DLTs as a possible, modern solution offer so called state channels to tackle this issue. With offline communication, hashing and signing algorithms and the utilization of smart-contracts DLTs can ensure security, data integrity and payment processing in this scenario. The concept of state-channels is examined in detail in the following section.\\
 
-\section{Fundamental concepts}
-\subsection{Distributed Ledger Technologies}
-The terms Blockchain and Distributed Ledger Technology (DLT) are often used synonymously\footnote{In this paper the terms are also used synonymously, otherwise they are explicitly referred to.}, whereby Blockchain is a subclass of DLT \cite{mastering2017}. Basically, data in blockchains are combined into blocks and put in a fixed order using hash chains. DLT also uses structures other than blocks by arranging data, for example, through trees or graphs.\\
-
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Overview-DLT.png}}
-\caption{Components of DLTs.}
-\label{fig:overview-dlt}
-\end{figure}
-
-Figure \ref{fig:overview-dlt} shows the components of a DLT, whose interrelationships are described below and then explained in detail one by one.\\
-DLTs are decentralized peer-to-peer (P2P) networks, in which nodes store data decentrally, use a consensus mechanism for synchronization and use asymmetrical encryption methods for system integrity and security. \cite{DLT2016}\\\
-The main component of a Distributed Ledger is the ledger itself (German: Kassenbuch), which stores a history of all transactions made. A transaction represents a transfer of value or information between entity objects. It contains a sender, a receiver and a number of units to be sent. Depending on the implementation, additional content such as user data or software code can be added. This code, also called Smart Contract, is executed in a separate runtime environment (virtual machine). Through the interaction of several Smart Contracts one is able to execute entire applications onchain; this is called a distributed app (DApp).\\
-Smart contracts can only access the internal (onchain) state of the ledger. If further (offchain) information is required\footnote{examples can be weather data, stock and exchange rates or lottery numbers}, these can be transmitted to the smart contract by so-called oracles. These act as 'trusted data providers', as the information provided cannot be validated. \cite{ORACLE2019}\\
-Transactions executed by smart contracts, DApps or users must be validated by nodes on the network before they can be added to the ledger. To do this, they are combined by complex calculations (mining), added to the local ledger and then sent to other nodes.\\
-The consensus log defines the rules for when a block may be added, which properties it must fulfill, and whether mining has been performed correctly. If any nodes are allowed to participate in the consensus, this is called a permissionless blockchain; if only privileged nodes are allowed to participate in the consensus, this is called a permissioned blockchain. Furthermore, blockchain networks can be classified as to whether transactions and blocks are publicly accessible and readable (public blockchain) or whether there are also restrictions (private blockchain).\\
-Special requirements, such as the lowest possible transaction costs, a high transaction speed, a restricted scope of the application or restrictions due to the business model are some examples of admission restrictions and limited participation in the consensus procedure; depending on the given requirements, blockchain protocols must be selected or adapted for the respective application. All nodes that follow the consensus protocol and validate incoming blocks according to this protocol are called full nodes. There are also light clients (often thin clients), which only store parts of the ledger and usually only check the validity of the block headers. Just like oracles, light clients are not part of the P2P network, but access the nodes via an API.
-If a user (represented in figure \ref{fig:overview-dlt} by Alice and Bob) wants to communicate with the blockchain or use it as a communication medium, this is also done via corresponding APIs. A graphical user interface allows users to initiate transactions, usually via browser or smartphone, and send them over the blockchain network. Each user has a wallet consisting of a public and a private key (Public / Private Key). The public key is similar to the account address of a bank account, the corresponding private key is similar to the PIN number. Thus, every user has a unique identity.\\
-If Alice wants to send a transaction worth 10 € to Bob, she can do this in different ways. First, she can enter the desired information on her smartphone using a wallet app and send it to the Blockchain network at the touch of a button. This is received there via the corresponding API, processed and persisted in the ledger. Bob can also use his smartphone app to track when his account balance changes and who sent a transaction to his address.\\
-An alternative solution to this would be the use of so-called state channels. These can be used by Alice and Bob to exchange any number of transactions with each other offchain and simply transfer the final balance of all exchanged transactions onchain to the ledger.\\
-
-
-\subsection{Internet of Things}
-The term Internet of Things - in short IOT - is a collective term and describes the networking of objects with each other (mostly via the Internet). It enables autonomous M2M communication, which in turn increases the degree of automation in the respective area of application. This means that communication between the IOT devices takes place autonomously, i.e. without human intervention. According to \cite{deloitte2018}, the subject area IOT can be divided into two areas Consumer IOT (CIOT) and Industrial IOT (IIOT). CIOT finds applications in the private environment, above all it is about smart home and the applications associated with it: Smart gardening, smart lights, intelligent door locking systems and heating controls. IIOT focuses on the commercial sector and tries to develop applications on a much larger scale: The automotive, energy and supply chain sectors are some of the important representatives here and appear as Smart Factory, Smart City, Connected Cars and others. The figure \ref{fig:overview-iot} gives an overview of the rough IOT architecture in the context of DLT.
+\subsection{State channels for empowering and scaling IOT use cases}
+Blockchains (4) are a compromise due to their nature. Due to the consensus protocol, independent of block size and network capacitya, a natural limit is given: For example, the Bitcoin network is limited on a block time of 10 minutes by the complex calculation of Proof-of-Work (PoW). If the block size is very small, blocks are propagated very quickly over the network, but only a few transactions can be transferred at once. If the block size is very large, it is very difficult for nodes to synchronize but more transactions can be transferred at once. This limitation of block size and block duration means that in the case of Bitcoin currently (as of 01/2020) on average about 7 transactions per second are possible (30).\\
+Other implementations may use other consensus mechanisms and other parameters, but there are also natural barriers there. It becomes clear that with increasing demands mainly to transaction processing per time interval (mostly transactions per second (TPS)) improved performance and new solutions become necessary. (30)\\
+As a possible answer to the scaling problem of blockchains so-called state channels were developed. The aim is to be able to transmit any kind of off-chain processing of status-changing operations, which are typically processed and stored on-chain. Thus the number of of transactions can be reduced and the interaction time between involved parties can be improved. In the context of payments, so-called micro-payments are made possible. State channels, which are limited to payment processing, are called payment channels. These can be faster and cheaper than normal transactions take place. The costs of such micro-payments can be kept very low, since not all transactions must be stored on-chain. (15)\\
+Another big advantage of state channels is the empowerment of asynchroneous transactions. If participants are not in the blockchain network (e.g. due to connectivity problems), then no transactions are carried out. If real-world actions like the opening of a barrier or the processing of an action are dependant from an on-chain status update, then with loss of connectivity the real process will stand still until the connection is restored. State-channels could be used here in order to create an alternative processing that can also be used when the blockchain is not reachable. Some example implementations of state channels are Bitcoin's Lightning Network (34), Ethereum's Raiden Network or the implementation of Neo called Trinity (41).\\
 
 
-\begin{figure}[htbp]
-\centerline{\includegraphics[width=0.5\textwidth]{Overview-IOT.png}}
-\caption{Components of IOT.}
-\label{fig:overview-iot}
-\end{figure}
+\subsection{A practical realization of one-way payment-channels with IOT devices}
+The payment-channels in this usecase are implemented as smart-contracts on the Ethereum blockchain. When a user submits to a rental offering and the renting contract is created, the corresponding smart-contract, that models a rental agreement, creates the data structure on-chain and initializes a payment agreement that is designed by a separate smart-contract. This creates the payment-channel between the involved parties and holds all relevant data.\\
+Initially the payment-channel between the coffee machine and the customer is charged with a predefined amount of credits transferred on contract creation. The payment-channel is implemented as a one-way payment-channel, because the value is exchanged only to the wallet of the machine. Credits that remain in the channel after the machine closes the channel will be transferred back to the customer. Apart from the general concept of payment-channels, the present one implements a redeem function that pays out the transferred credits the receivers. Due to this functionality the payment-channels can be reused and recharged and do not need to be recreated; this is for performance and cost issues.\\
+While the payment agreement data structure is an on-chain information container for the payment-channel, the communication between the participants happens off-chain. The data is only needed for data persistency purposes and for synchronization of the participants. To be able to transfer data from the coffee machines to the employees and back there must be a communication channel besides the blochchain. This is implemented by exchanging data via NFC: After pressing the coffee serving button, the coffee machine sends the payment data as a receipt via NFC to the employee's smartphone. The data is signed with the employee's private key and sent back from the smartphone to the coffee machine. The machine is able to verify the signature and persists the latest receipt locally. This process can be repeated as many times as there are enough credits in the payment-channel. Because there might occure a connection-loss the coffee machine might not be able to check the balance on-chain and has to rely on its local information. Because the payment-channels are one-way, there is no possibility for the customer to pay out his own credits and order a new coffee while the machine is offline. This must be ensured to avoid data inconsistency.\\
+If the balance of the payment-channel reaches a critical threshold or a defined time interval is reached, the machine redeems the receipts and the money is transferred on-chain. The customer - in this use case the company or a authorized employee - can charge the payment-channel again to order more coffee in the future.\\
+The described payment process with the utilization of the payment-channel as part of the renting agreement can be transferred to the other payment processes between more stakeholders like the service-provider mentioned above. The base concept and implementation remain the same.
+
+\subsection{Architectural overview of involved components}
+ARCHITEKTUR ZEIGEN
+
+\section{Results}
+ERGEBNISSE DARLEGEN
 
 
-To network physical devices with each other, so-called digital twins are created. These are virtual images of the devices that are connected to each other by means of sensors and actuators. Thus, state changes can be transferred from the physical part to the virtual part and vice versa. Each device has a unique identity, which is mapped in the blockchain environment by means of decentralized identity (\textbf{Reference}). In addition, and depending on the application, devices have a wallet to perform automated payment processes M2M. Each device has a specific functionality and contributes to the IOT system. Devices are connected to the Internet via a local gateway, which may be a WLAN router or a mobile phone chip. Communication takes place via common communication protocols such as MQTT, HTTP or - as in the case of blockchain - via the blockchain protocol. IOT requests are processed via the blockchain network; the authors of \cite{SCIOT2016} formulate the benefits of this from the perspective of an IOT Device manufacturer and a consumer as follows:\\
-\textit{´´From the manufacturer's side, the current centralized model has a high maintenance cost consider the distribution of software updates to millions of devices for years after they have been long discontinued. From the consumer's side, there is a justified lack of a trust in devices that phone home in the background and a need for a security through transparency approach.´´}\\
-\cite{SCIOT2016} names two central core features of a Distributed Ledger: On the one hand, the distribution and the easy connection and accessibility of IOT devices, which can facilitate maintenance by the manufacturer. On the other hand, the authors address the question of trust on the part of customers with regard to data security and privacy. Here the blockchain technology according to \cite{SCIOT2016} ´´Security through transparency´´ and ensure greater acceptance.\\
-However, the use of block chain technology is not always advisable or possible. For example, the use of a DLT in the IOT environment may be disadvantageous due to the use case or due to technical limitations and conditions. The first might be, for example, a smart home application that provides temperature control and monitoring of the home. A decentralized ledger would be oversized here and overqualified for this purpose. The cost would be disproportionate to the benefit. Furthermore, this IOT application case does not show any characteristics of a DLT application: It is a single party involved in a familiar environment with few terminals. On the other hand, technical hurdles can prevent the use of DLT. Especially in the automotive sector, the processing of sensor and actuator data in real-time is a critical point. Decentralized ledgers are not suitable for this purpose because they are not capable of running time-critical applications.\\
-It becomes clear that the nature of the IOT application case makes a very decisive contribution to whether the use of a block chain solution makes sense or not. Due to its core features, the block chain offers some IOT enablers natively: Transparent and verifiable processes of all devices, integrated and automated M2M payment processing, P2P communication, and data integrity and persistence.
+% \section{Conclusion}
+% \lipsum[1-1]
 
-\subsection{State-Channels for asynchronous IOT use cases}
-Blockchains\footnote{Note: This consideration is primarily concerned with public blockchains, regardless of the consensus method used. The scaling problem can usually be solved by limiting the blockchains to a private one.} have predefined limits due to their nature. A natural limit is given by the consensus protocol independent of block size and network capacity: For example, the Bitcoin network is limited to a block time of 10 minutes by the complex calculation of \textit{Proof-of-Work (PoW)}. If the block size is very small, blocks can be propagated over the network very quickly, but only a few transactions can be transmitted at once. If the block size is very large, it is very difficult for nodes to synchronize. Instead, more transactions can be transmitted at once.\\
-Due to this limitation on block size and block duration, Bitcoin currently (as of 01/2020) allows an average of about 7 transactions per second \cite{Macdonald2017}. Other implementations may use different consensus mechanisms and other parameters, but there are natural barriers. It becomes clear that with increasing requirements, especially for transaction processing per time interval (mostly \textit{transaction per second (TPS)}, improved performance and new approaches to solutions become necessary. A solution is sought for the poor scaling of blockchains. \cite{Macdonald2017}\\
-As a possible answer to the scaling problem of blockchains, so-called state channels are being developed. The goal is to process all kinds of status-changing operations off-chain, which are typically executed on the blockchain and stored on-chain. This reduces the number of accesses to the blockchain and the number of transactions, while at the same time improving the interaction time between individual parties. In the context of payments, this enables so-called micro-payments; state channels, which are limited to payment processing, are referred to as payment channels. These can be made faster and cheaper than normal transactions. The costs of such micro-payments can be kept very low because not all transactions are stored on the blockchain. \cite{Coleman2018}\\
-The basic idea is the following: Alice and Bob reserve a portion of their assets on the blockchain so they can't dispose of them for the time being and open a payment channel to each other. This transaction, i.e. the opening of the payment channel, is stored on the blockchain. The volume of the channel, i.e. the assets that Alice and Bob can now exchange between each other, corresponds to the sum of the reserved assets. Your desired assets, which are to be reserved for the payment channel, can be reserved either by means of a multi-signature wallet (\textbf{Reference}) or smart contract (\textbf{Reference}). Alice and Bob now have a state of 50 Euro each. Afterwards both can send signed off-chain transactions to each other (i.e. not via the blockchain network). These transactions contain the new state: If Bob transfers 10 Euro to Alice, the state of Alice changes from 50 Euro to 60 Euro. If Bob sends another transaction of 10 Euro, the state of Alice changes to 70 Euro. Both of them can repeat this process as long as they want, as long as they are within the volume of 100 Euro. To close a channel, Alice or Bob send a transaction to the blockchain network containing the final state (in the example, Alice has 70 Euros and Bob 30 Euros). For a theoretically infinite number of transactions between Alice and Bob, only the opening and closing transaction of the payment channel must be stored onchain.\\
-%https://busy.org/@bit-news/scalability-solutions-part-1
-Another major advantage is the asynchronous nature of the transactions made possible by the state channel. If participants are not in the blockchain network (for example, due to connectivity problems), no transactions can be carried out. If real actions, such as opening a barrier or processing an action, are related to a blockchain status update, the real process would come to a standstill until the connection is restored if connectivity is lost. State channels could be used here to create a redundant connection that could also be used when the blockchain is not accessible. Some example implementations of state channels are Bitcoin's Lightning Network \cite{Lightning2016}, Ethereum's Raiden Network, or the implementation of Neo called Trinity \cite{Trinity2018}.\\
-Another way to scale blockchain applications can be created by using side chains \cite{sidechain2019}. These are separate blockchains that run parallel to the main blockchain (also often called parent blockchain or main chain). To open a side chain, you must first prove that all assets whose status is to be changed in the side chain are locked or reserved on the main chain so that the owner cannot temporarily dispose of them (for example, through zero knowledge proofs, see \cite{zeroknowledge2020}). These locked assets can then be transferred to the side chain. There the status can be changed; for example, a money transaction can be executed. If an asset is to be transferred back to the main chain, proof must be provided that the asset has been locked on the side chain. This prevents effects such as double spending.\\
-Solutions such as state channels and side chains are known as layer 2 approaches: This term refers to approaches that are not directly executed on the blockchain itself (layer 1), but on a separate system.\\
-\textbf{Now what are the advantages in the context of IOT? Keywords: asynchronous processing, offline capability}
+% \section{Future Work}
+% \lipsum[1-1]
 
-
-\section{Pay-As-You-Use renting of gastronomy devices}
-\textbf{Description of use case goes here.}\\
-\paragraph{Coffee Machines..}
-\lipsum[1-1]
-
-\subsection{Requirements}
-\lipsum[1-1]
-
-\subsection{Market analysis DLT}
-\lipsum[1-1]
-
-\section{Implementation}
-\lipsum[1-1]
-
-
-\section{Conclusion}
-\lipsum[1-1]
-
-\section{Future Work}
-\lipsum[1-1]
-
-
-% \begin{table}[htbp]
-% \caption{Table Type Styles}
-% \begin{center}
-% \begin{tabular}{|c|c|c|c|}
-% \hline
-% \textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
-% \cline{2-4}
-% \textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
-% \hline
-% copy& More table copy$^{\mathrm{a}}$& &  \\
-% \hline
-% \multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
-% \end{tabular}
-% \label{tab1}
-% \end{center}
-% \end{table}
-
-% \begin{figure}[htbp]
-% \centerline{\includegraphics{fig1.png}}
-% \caption{Example of a figure caption.}
-% \label{fig}
-% \end{figure}
-
-
-
-\section*{Acknowledgment}
-\textbf{Acknowledgment goes here}\\
-\lipsum[1-1]
+% \section*{Acknowledgment}
+% \lipsum[1-1]
 
 
 
