@@ -85,11 +85,11 @@ Another big advantage of state channels is the empowerment of asynchroneous tran
 The payment-channels in this usecase are implemented as smart-contracts on the Ethereum blockchain. When a user submits to a rental offering and the renting contract is created, the corresponding smart-contract, that models a rental agreement, creates the data structure on-chain and initializes a payment agreement that is designed by a separate smart-contract. This creates the payment-channel between the involved parties and holds all relevant data.\\
 Initially the payment-channel between the coffee machine and the customer is charged with a predefined amount of credits transferred on contract creation. The payment-channel is implemented as a one-way payment-channel, because the value is exchanged only to the wallet of the machine. Credits that remain in the channel after the machine closes the channel will be transferred back to the customer. Apart from the general concept of payment-channels, the present one implements a redeem function that pays out the transferred credits the receivers. Due to this functionality the payment-channels can be reused and recharged and do not need to be recreated; this is for performance and cost issues.\\
 While the payment agreement data structure is an on-chain information container for the payment-channel, the communication between the participants happens off-chain. The data is only needed for data persistency purposes and for synchronization of the participants. To be able to transfer data from the coffee machines to the employees and back there must be a communication channel besides the blochchain. This is implemented by exchanging data via NFC: After pressing the coffee serving button, the coffee machine sends the payment data as a receipt via NFC to the employee's smartphone. The data is signed with the employee's private key and sent back from the smartphone to the coffee machine. The machine is able to verify the signature and persists the latest receipt locally. This process can be repeated as many times as there are enough credits in the payment-channel. Because there might occure a connection-loss the coffee machine might not be able to check the balance on-chain and has to rely on its local information. Because the payment-channels are one-way, there is no possibility for the customer to pay out his own credits and order a new coffee while the machine is offline. This must be ensured to avoid data inconsistency.\\
-If the balance of the payment-channel reaches a critical threshold or a defined time interval is reached, the machine redeems the receipts and the money is transferred on-chain. The customer - in this use case the company or a authorized employee - can charge the payment-channel again to order more coffee in the future.\\
+If the balance of the payment-channel reaches a critical threshold or a defined time interval is reached, the machine redeems the receipts and the money is transferred on-chain. The customer - in this use case the company or an authorized employee - can charge the payment-channel again to order more coffee in the future.\\
 The described payment process with the utilization of the payment-channel as part of the renting agreement can be transferred to the other payment processes between more stakeholders like the service-provider mentioned above. The base concept and implementation remain the same.
 
 \subsection{Architectural overview of involved components}
-\textit{\lipsum[1-1]}
+The present use case was evaluated by a prototypical implementation with the Ethereum blockchain. The focus of this was to show the general feasability and the synergy between DLT and IOT. The use case is not covered as a whole as this is not needed to approve the benefits of DLT for IOT use cases.\\
 
 \begin{figure}[htbp]
  \centering
@@ -98,12 +98,33 @@ The described payment process with the utilization of the payment-channel as par
  \label{fig:architecture}
 \end{figure}
 
+An overview of the application's architecture is shown in figure \ref{fig:architecture}. On-chain information is processed and stored via three smart-contracts: The IdentityProvider takes care of the contracting parties and manages access control. The PaymentProvider holds the payment-channels for the renting contracts and handles payment processing. The RenalProvider models the rental contracts on-chain and controls and calls the other smart-contracts.\\
+Information on rentable devices, active contracts, contract handling and payment is accessable by all participants through a web app. The browser-integrated wallet MetaMask is used to sign and verify transactions to and from the blockchain.\\
+To interact with the coffee machine the customer needs a smartphone with enabled NFC service. A mobile app enables the customer to authorize payments and sign incoming receipts from the coffee machine via NFC. The wallet used on the smartphone is the same as the one in the browser, so all information and contracting can be done across device boundaries.\\
+To upgrade coffee machines and make them smart (as long as they do not support smart functionality out of the box) a RaspberryPi mini-computer is used in conjunction with a NFC breakout-board. This board is used for communication between the coffee machine and the smartphone. To measure the internal device state and gather usage data the device needs onboard sensors which must be available for the RaspberryPi to call (e.g. via REST or hardware-near protocols like I2C). The RaspberryPi itself can call the blockchain to redeem the receips or to report errors or request service inquiry.\\
+
+
+
 \section{Results}
 \textit{\lipsum[1-1]}
+With the successful implementation of this usecase the general feasability is shown. IOT use cases can benefit from 
+
+\subsection{Operating costs}
+The use case is calculated as an industry-realistic quantity structure for the German market based on customer experience of MaibornWolff GmbH. The following numbers and data are based on the tests from the protoype or marked as assumptions.\\
+A final configuration level of the present use case might include a total of 10.000 coffee machines on rent and 40 employees per office on average as well as a per capita consumption per year of coffee 164 litres.\\
+At the time of calculating the Ethereum price was at 196,04 €/ETH; the GAS price is set to 5 GWEI. A more detailed overview of the assumptions made and the underlying data is shown in the appendix.\\
+
+
+\subsection{Performance}
+
+\subsection{Security}
+
+\subsection{Privacy}
+
 
 
 \section{Conclusion}
-\textit{\lipsum[1-1]}
+The implementation has been successful; a suitable implementation has been made, which prototypically evaluates the use case on the basis of Ethereum. A general statement for the entire IOT application area is thus not made and cannot be fully validated.  Use cases that show similar characteristics as the present implementation can profit with a high degree of certainty from a DLT implementation and the associated advantages. On the other hand, time-critical or performance-heavy IOT applications that cannot be implemented on the basis of a DLT because, for example, the required real-time communication is not available. In addition, applications that affect only a single stakeholder or are only executed at a single location are not designed for DLTs either, as they cannot benefit from the decentralized and no-trust environment.
 
 \section{Future Work}
 \textit{\lipsum[1-1]}
