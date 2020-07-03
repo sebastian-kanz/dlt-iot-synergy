@@ -106,8 +106,7 @@ To upgrade coffee machines and make them smart (as long as they do not support s
 
 
 \section{Results}
-\textit{\lipsum[1-1]}
-With the successful implementation of this usecase the general feasability is shown. IOT use cases can benefit from 
+With the successful implementation of this usecase the general feasability is shown. The following subsections examine different aspects in detail.
 
 \subsection{Operating costs}
 The use case is calculated as an industry-realistic quantity structure for the German market based on customer experience of MaibornWolff GmbH. The following numbers and data are based on the tests from the protoype or marked as assumptions.\\
@@ -116,11 +115,18 @@ At the time of calculating the Ethereum price was at 196,04 €/ETH; the GAS pri
 
 
 \subsection{Performance}
+The performance from the user's point of view must be divided into two phases of use: The initial contract creation is an asynchronous process that requires the intervention of both contract parties and therefore cannot be measured exactly. If this process is transferred to the analog process - the contract request until the conclusion of the contract - a significant increase in speed can be observed through digitalization of that process. The processing time from the request to the conclusion of the contract corresponds to three onchain transactions and thus lasts on average only a few minutes. The actual usage, i.e. the interaction of the user with the coffee machine, is instantaneous and offers the user optimal performance and thus a good user experience. From the manufacturer's point of view, there are no time-critical processes, as it is not important that a contract is concluded within seconds, as the time at which the customer confirms the contract cannot be affected. A receipt can be cashed out with one onchain transaction within a few seconds (less than a minute) and is therefore within an acceptable time frame. 
 
 \subsection{Security}
+The use case is based on a role and user management system, which checks permissions and restricts access. The central security aspect is the private key of every user. Currently there exists no implemented mechanism to prevent the loss or theft of the of a private key. The Ethereum Blockchain is classified as extremely safe; manipulations or attacks on the system are only possible with extremely high effort and immense costs. The security of the implemented Smart Contracts must be audited by experts before a go-live to a productive environment, so that damages caused by third parties or errors in the code can be avoided.
 
 \subsection{Privacy}
-
+The present implementation did not focus on privacy concerns. Nevertheless privacy is an important topic to spent on investigation when it comes to a real world adoption. Some privacy vulnerabilities are listed below, without claiming to be complete:\\
+\begin{itemize}
+  \item Third parties are able to track the coffee consumption per customer account. Due to the fact, that in the current implementation an account is used by all employees of an office, no assertion can be made for a single person. The cunsumption is not related to a single day but to a period of time.
+  \item Information of costs, usage, contract periods are visible to third parties.
+  \item Third parties can determine the role of an account, wheter it acts as a machine, a customer, a manufacturer or another role.
+\end{itemize}
 
 
 \section{Conclusion}
